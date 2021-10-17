@@ -12,37 +12,37 @@ const delayMS = 1000 //sometimes xDAI needs a 6000ms break lol 😅
 const main = async () => {
 
   // ADDRESS TO MINT TO:
-  const toAddress = "0x34aA3F359A9D614239015126635CE7732c18fDF3"
+  const toAddress = "0xAcc2E54E1481b9130d8F18F7e3C59c36a7F1A53d"
 
   console.log("\n\n 🎫 Minting to "+toAddress+"...\n");
 
   const { deployer } = await getNamedAccounts();
   const yourCollectible = await ethers.getContract("YourCollectible", deployer);
 
-  const buffalo = {
-    "description": "It's actually a bison?",
-    "external_url": "https://austingriffith.com/portfolio/paintings/",// <-- this can link to a page for the specific file too
-    "image": "https://austingriffith.com/images/paintings/buffalo.jpg",
-    "name": "Buffalo",
+  const banglapesa = {
+    "description": "It's actually money?",
+    "external_url": "https://en.wikipedia.org/wiki/Sarafu-Credit#/media/File:Bangla-Pesa_50_note.png/",// <-- this can link to a page for the specific file too
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/06/Bangla-Pesa_50_note.png",
+    "name": "BanglaPesa",
     "attributes": [
        {
-         "trait_type": "BackgroundColor",
-         "value": "green"
+         "trait_type": "Location",
+         "value": "Bangladesh, Mombasa"
        },
        {
-         "trait_type": "Eyes",
-         "value": "googly"
+         "trait_type": "Founded",
+         "value": "November 2013"
        },
        {
-         "trait_type": "Stamina",
-         "value": 42
+         "trait_type": "Paper or digital",
+         "value": "Paper"
        }
     ]
   }
-  console.log("Uploading buffalo...")
-  const uploaded = await ipfs.add(JSON.stringify(buffalo))
+  console.log("Uploading banglapesa...")
+  const uploaded = await ipfs.add(JSON.stringify(banglapesa))
 
-  console.log("Minting buffalo with IPFS hash ("+uploaded.path+")")
+  console.log("Minting banglapesa with IPFS hash ("+uploaded.path+")")
   await yourCollectible.mintItem(toAddress,uploaded.path,{gasLimit:400000})
 
 
