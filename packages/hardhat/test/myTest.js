@@ -12,9 +12,9 @@ describe("My Dapp", function () {
     setTimeout(done, 2000);
   });
 
-  describe("YourContract", function () {
+  describe("MyNFT", function () {
     it("Should deploy YourContract", async function () {
-      const YourContract = await ethers.getContractFactory("YourContract");
+      const YourContract = await ethers.getContractFactory("MyNFT");
 
       myContract = await YourContract.deploy();
     });
