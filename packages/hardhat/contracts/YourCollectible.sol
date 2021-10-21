@@ -1,34 +1,28 @@
-pragma solidity >=0.6.0 <0.7.0;
-//SPDX-License-Identifier: MIT
+//Contract based on [https://docs.openzeppelin.com/contracts/3.x/erc721](https://docs.openzeppelin.com/contracts/3.x/erc721)
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 
-//import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-//learn more: https://docs.openzeppelin.com/contracts/3.x/erc721
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-// GET LISTED ON OPENSEA: https://testnets.opensea.io/get-listed/step-two
+contract MyNFT is ERC721URIStorage, Ownable {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
 
-contract YourCollectible is ERC721, Ownable {
+    constructor() ERC721("MyNFT", "NFT") {}
 
-  using Counters for Counters.Counter;
-  Counters.Counter private _tokenIds;
+    function mintNFT(address recipient, string memory tokenURI)
+        public onlyOwner
+        returns (uint256)
+    {
+        _tokenIds.increment();
 
-  constructor() public ERC721("YourCollectible", "YCB") {
-    _setBaseURI("https://ipfs.io/ipfs/");
-  }
+        uint256 newItemId = _tokenIds.current();
+        _mint(recipient, newItemId);
+        _setTokenURI(newItemId, tokenURI);
 
-  function mintItem(address to, string memory tokenURI)
-      public
-      onlyOwner
-      returns (uint256)
-  {
-      _tokenIds.increment();
-
-      uint256 id = _tokenIds.current();
-      _mint(to, id);
-      _setTokenURI(id, tokenURI);
-
-      return id;
-  }
+        return newItemId;
+    }
 }
