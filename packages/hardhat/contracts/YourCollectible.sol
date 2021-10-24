@@ -12,7 +12,9 @@ contract YourCollectible is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("YourCollectible", "YCB") {}
+    constructor() ERC721("YourCollectible", "YCB") {
+
+    }
 
     function mintItem(address recipient, string memory tokenURI) public payable
         returns (uint256)

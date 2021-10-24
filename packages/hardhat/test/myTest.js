@@ -37,7 +37,7 @@ describe("My Dapp", function () {
       expect(await myContract.isOwnable)
     });
 
-    it('Is the contract ownable?', async function () {
+    it('Is the contract payable?', async function () {
       // it should set the right owner 
       const YourContract = await ethers.getContractFactory("YourCollectible");
       myContract = await YourContract.deploy();
@@ -74,16 +74,18 @@ describe("My Dapp", function () {
       var assert = require('assert')
       assert.notEqual(address, "");
     });
-    // 6. is the tx hash the right length?
+
+    it("Should set the right owner", async () => {
+      expect(await recipient).to.equal(await recipient.address);
+    });
+
+    it('should be able to update the uri', async function() {
+      await myContract.setTokenURI('foo')
+      assert.equal(await myContract.baseTokenURI(), 'foo')
+    })
 
 
 
-    // 7. is the nft transferrable?
-
-
-
-    // 8. is the nft 
-
-
+    
 
 
