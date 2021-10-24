@@ -17,7 +17,7 @@ const main = async () => {
   console.log("\n\n 🎫 Minting to "+toAddress+"...\n");
 
   const { deployer } = await getNamedAccounts();
-  const yourCollectible = await ethers.getContract("MyNFT", deployer);
+  const yourCollectible = await ethers.getContract("YourCollectible", deployer);
 
   const banglapesa = {
     "description": "It's actually money?",

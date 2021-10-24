@@ -19,8 +19,12 @@ import {
   useOnBlock,
   useUserProviderAndSigner,
 } from "eth-hooks";
-import { useEventListener } from "eth-hooks/events/useEventListener";
-import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
+import {
+  useEventListener,
+} from "eth-hooks/events/useEventListener";
+import {
+  useExchangeEthPrice,
+} from "eth-hooks/dapps/dex";
 // import Hints from "./Hints";
 
 const { BufferList } = require("bl");
@@ -29,11 +33,7 @@ const ipfsAPI = require("ipfs-http-client");
 const ipfs = ipfsAPI({ host: "ipfs.infura.io", port: "5001", protocol: "https" });
 
 
-// contracts
-import deployedContracts from "./contracts/hardhat_contracts.json";
-import externalContracts from "./contracts/external_contracts";
-
-import { useContractConfig } from "./hooks";
+import { useContractConfig } from "./hooks"
 import Portis from "@portis/web3";
 import Fortmatic from "fortmatic";
 import Authereum from "authereum";
@@ -42,18 +42,13 @@ const { ethers } = require("ethers");
 
 /*
     Welcome to 🏗 scaffold-eth !
-
     Code:
-    https://github.com/scaffold-eth/scaffold-eth
-
+    https://github.com/austintgriffith/scaffold-eth
     Support:
     https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA
     or DM @austingriffith on twitter or telegram
-
     You should get your own Infura.io ID and put it in `constants.js`
     (this is your connection to the main Ethereum network for ENS etc.)
-
-
     🌏 EXTERNAL CONTRACTS:
     You can also bring in contract artifacts in `constants.js`
     (and then use the `useExternalContractLoader()` hook!)
@@ -68,21 +63,25 @@ const NETWORKCHECK = true;
 
 // EXAMPLE STARTING JSON:
 const STARTING_JSON = {
-  description: "It's actually a bison?",
-  external_url: "https://austingriffith.com/portfolio/paintings/", // <-- this can link to a page for the specific file too
-  image: "https://austingriffith.com/images/paintings/buffalo.jpg",
-  name: "Buffalo",
-  attributes: [
-    {
-      trait_type: "BackgroundColor",
-      value: "green",
-    },
-    {
-      trait_type: "Eyes",
-      value: "googly",
-    },
-  ],
-};
+  "description": "It's actually money?",
+  "external_url": "https://en.wikipedia.org/wiki/Sarafu-Credit#/media/File:Bangla-Pesa_50_note.png/",// <-- this can link to a page for the specific file too
+  "image": "https://upload.wikimedia.org/wikipedia/commons/0/06/Bangla-Pesa_50_note.png",
+  "name": "BanglaPesa",
+  "attributes": [
+     {
+       "trait_type": "Location",
+       "value": "Bangladesh, Mombasa"
+     },
+     {
+       "trait_type": "Founded",
+       "value": "November 2013"
+     },
+     {
+       "trait_type": "Paper or digital",
+       "value": "Paper"
+     }
+  ]
+}
 
 // helper function to "Get" from IPFS
 // you usually go content.toString() after this...
@@ -109,15 +108,12 @@ if (DEBUG) console.log("📡 Connecting to Mainnet Ethereum");
 const scaffoldEthProvider = navigator.onLine
   ? new ethers.providers.StaticJsonRpcProvider("https://rpc.scaffoldeth.io:48544")
   : null;
-const poktMainnetProvider = navigator.onLine
-  ? new ethers.providers.StaticJsonRpcProvider(
-      "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
-    )
-  : null;
+const poktMainnetProvider = navigator.onLine ? new ethers.providers.StaticJsonRpcProvider("https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406") : null;
 const mainnetInfura = navigator.onLine
   ? new ethers.providers.StaticJsonRpcProvider("https://mainnet.infura.io/v3/" + INFURA_ID)
   : null;
 // ( ⚠️ Getting "failed to meet quorum" errors? Check your INFURA_ID
+
 // 🏠 Your local provider is usually pointed at your local blockchain
 const localProviderUrl = targetNetwork.rpcUrl;
 // as you deploy to other networks you can set REACT_APP_PROVIDER=https://dai.poa.network in packages/react-app/.env
@@ -156,6 +152,7 @@ const web3Modal = new Web3Modal({
           100: "https://dai.poa.network", // xDai
         },
       },
+
     },
     portis: {
       display: {
@@ -264,9 +261,7 @@ function App(props) {
   // Just plug in different 🛰 providers to get your balance on different chains:
   const yourMainnetBalance = useBalance(mainnetProvider, address);
 
-  // const contractConfig = useContractConfig();
-
-  const contractConfig = { deployedContracts: deployedContracts || {}, externalContracts: externalContracts || {} };
+  const contractConfig = useContractConfig();
 
   // Load in your local 📝 contract and read a value from it:
   const readContracts = useContractLoader(localProvider, contractConfig);
@@ -382,7 +377,7 @@ function App(props) {
   if (NETWORKCHECK && localChainId && selectedChainId && localChainId !== selectedChainId) {
     const networkSelected = NETWORK(selectedChainId);
     const networkLocal = NETWORK(localChainId);
-    if (selectedChainId === 1337 && localChainId === 31337) {
+    if (selectedChainId === 1337 && localChainId === 1337) {
       networkDisplay = (
         <div style={{ zIndex: 2, position: "absolute", right: 0, top: 60, padding: 16 }}>
           <Alert
@@ -462,6 +457,8 @@ function App(props) {
       </div>
     );
   }
+
+
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
